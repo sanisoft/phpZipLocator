@@ -30,4 +30,4 @@ See ziptest.php for sample usage.
 See http://distance-calculation.com/Distance-Calculation.asp for a nice article on
 distance calculation and try and figure out (im)precise phpZipLocator is ;-)
 
-Lastly remember that this class is more of an example rather than a complete solution. Feeel free to adapt it to your use case. Also your results will be as good as your data
+Lastly remember that this class is more of an example rather than a complete solution. Feel free to adapt it to your use case. Also your results will be as good as your data
