@@ -41,24 +41,24 @@ class zipLocator
        global $db;
        $query = "SELECT * FROM zipData WHERE zipcode = $zipOne";
 
-       $db->query($query);
-       if(!$db->nf()) {
+       $result = $db->query($query);
+       if(!$result->rowCount()) {
            return "First Zip Code not found";
        }else{
-           $db->next_record();
-           $lat1 = $db->f("lat");
-           $lon1 = $db->f("lon");
+           $data = $result->fetch(PDO::FETCH_ASSOC);
+           $lat1 = $data['lat'];
+           $lon1 = $data['lon'];
        }
 
        $query = "SELECT * FROM zipData WHERE zipcode = $zipTwo";
 
-       $db->query($query);
-       if(!$db->nf()) {
+       $result = $db->query($query);
+       if(!$result->rowCount()) {
            return "Second Zip Code not found";
        }else{
-           $db->next_record();
-           $lat2 = $db->f("lat");
-           $lon2 = $db->f("lon");
+           $data = $result->fetch(PDO::FETCH_ASSOC);
+           $lat2 = $data['lat'];
+           $lon2 = $data['lon'];
        }
 
        /* Convert all the degrees to radians */
@@ -116,18 +116,18 @@ class zipLocator
     {
         global $db;
         $query="SELECT * FROM zipData WHERE zipcode='$zip'";
-        $db->query($query);
+        $result = $db->query($query);
 
-        if($db->affected_rows()<>0) {
-            $db->next_record();
-            $lat=$db->f("lat");
-            $lon=$db->f("lon");
+        if($result->rowCount()<>0) {
+            $data = $result->fetch(PDO::FETCH_ASSOC);
+            $lat=$data['lat'];
+            $lon=$data['lon'];
             $query="SELECT zipcode FROM zipData WHERE (POW((69.1*(lon-\"$lon\")*cos($lat/57.3)),\"2\")+POW((69.1*(lat-\"$lat\")),\"2\"))<($radius*$radius) ";
-            $db->query($query);
-            if($db->affected_rows()<>0) {
-                while($db->next_record()) {
-                    $zipArray[$i]=$db->f("zipcode");
-                    $i++;
+            $result = $db->query($query);
+            if($result->rowCount()<>0) {
+                $data = $result->fetchAll(PDO::FETCH_ASSOC);
+                foreach($data as $data){
+                  $zipArray[] = $data['zipcode'];
                 }
             }
         }else{

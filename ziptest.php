@@ -12,10 +12,18 @@
 // +----------------------------------------------------------------------+
 //
 // $Id$
-include_once ("db_mysql.inc");
 include_once ("phpZipLocator.php");
 
-$db = new db_sql;
+$host = 'localhost';
+$dbname = 'phpZipLocator';
+$username = '';
+$password = '';
+$dsn = "mysql:host=$host;dbname=$dbname";
+$options = array(
+    PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
+);
+
+$db = new PDO($dsn, $username, $password, $options);
 
 $zipLoc = new zipLocator;
 
